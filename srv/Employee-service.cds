@@ -39,4 +39,6 @@ service EmployeeService {
         { grant: 'EXECUTE', to: 'authenticated-user' }
     ]
     action permanentlyDeleteEmployee(employeeID : UUID);
+
+    entity LearningsMasterData as projection on db.LearningsMasterData;
 }

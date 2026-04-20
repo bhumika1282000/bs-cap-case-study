@@ -12,7 +12,8 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-employee-ui": "cds watch --open com.employee.employeeui/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-employee-ui": "cds watch --open com.employee.employeeui/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-learnings": "cds watch --open learnings/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "private": true,
   "cds": {
@@ -30,19 +31,27 @@
         "users": {
           "admin": {
             "password": "admin",
-            "roles": ["ADMIN"]
+            "roles": [
+              "ADMIN"
+            ]
           },
           "viewer": {
             "password": "viewer",
-            "roles": ["VIEWER"]
+            "roles": [
+              "VIEWER"
+            ]
           },
           "projectadmin": {
             "password": "projectadmin",
-            "roles": ["PROJECT_ADMIN"]
+            "roles": [
+              "PROJECT_ADMIN"
+            ]
           },
           "learningadmin": {
             "password": "learningadmin",
-            "roles": ["LEARNING_ADMIN"]
+            "roles": [
+              "LEARNING_ADMIN"
+            ]
           }
         }
       }
@@ -52,6 +61,7 @@
     "app/*"
   ],
   "sapux": [
-    "app/employee-ui"
+    "app/employee-ui",
+    "app/learnings"
   ]
 }
