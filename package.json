@@ -1,0 +1,57 @@
+{
+  "name": "employee_cap_proj_bs",
+  "version": "1.0.0",
+  "dependencies": {
+    "@sap/cds": "^9"
+  },
+  "devDependencies": {
+    "@cap-js/cds-typer": "^0.38.0",
+    "@cap-js/sqlite": "^2",
+    "@sap/ux-ui5-tooling": "^1.22.0",
+    "cds-plugin-ui5": "^0.13.0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-employee-ui": "cds watch --open com.employee.employeeui/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "db-ext": {
+        "[development]": {
+          "model": "db/sqlite"
+        },
+        "[production]": {
+          "model": "db/hana"
+        }
+      },
+      "auth": {
+        "kind": "mocked",
+        "users": {
+          "admin": {
+            "password": "admin",
+            "roles": ["ADMIN"]
+          },
+          "viewer": {
+            "password": "viewer",
+            "roles": ["VIEWER"]
+          },
+          "projectadmin": {
+            "password": "projectadmin",
+            "roles": ["PROJECT_ADMIN"]
+          },
+          "learningadmin": {
+            "password": "learningadmin",
+            "roles": ["LEARNING_ADMIN"]
+          }
+        }
+      }
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/employee-ui"
+  ]
+}
