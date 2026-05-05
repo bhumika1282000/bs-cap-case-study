@@ -1,21 +1,31 @@
 {
   "name": "employee_cap_proj_bs",
   "version": "1.0.0",
+  "private": true,
   "dependencies": {
     "@sap/cds": "^9"
   },
   "devDependencies": {
+    "eslint": "^9.39.4",
+    "@sap-ux/eslint-plugin-fiori-tools": "^9.11.7",
     "@cap-js/cds-typer": "^0.38.0",
     "@cap-js/sqlite": "^2",
     "@sap/ux-ui5-tooling": "^1.22.0",
-    "cds-plugin-ui5": "^0.13.0"
+    "cds-plugin-ui5": "^0.13.0",
+    "@cap-js/cds-types": "^0.16.0",
+    "@types/node": "^24.0.0",
+    "tsx": "^4",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "eslint": "^9.39.4"
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-employee-ui": "cds watch --open com.employee.employeeui/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-learnings": "cds watch --open learnings/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch": "cds watch --open com.employee.employeeui/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-employee": "cds watch --open employee.employee/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-employeeapp": "cds watch --open employeeapp/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
-  "private": true,
   "cds": {
     "requires": {
       "db-ext": {
@@ -61,7 +71,11 @@
     "app/*"
   ],
   "sapux": [
-    "app/employee-ui",
-    "app/learnings"
-  ]
+    "app/employee",
+    "app/employee",
+    "app/employeeapp"
+  ],
+  "imports": {
+    "#cds-models/*": "./@cds-models/*/index.js"
+  }
 }

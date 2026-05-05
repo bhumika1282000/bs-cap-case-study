@@ -1,4 +1,2 @@
 
-using from './employee-ui/annotations';
-
-using from './learnings/annotations';
+using from './employeeapp/annotations';

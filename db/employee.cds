@@ -1,6 +1,7 @@
 namespace db;
 
 using { cuid, managed } from '@sap/cds/common';
+using {db.LearningsMasterData as LearningsMasterData} from './learningsMasterData';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -35,7 +36,7 @@ type ProjectStatus : String enum {
 // Fields: ID, Course Description, Course Code, Initial, Course Contacts
 // ============================================================================
 
-entity LearningsMasterData : cuid, managed {    
+/*entity LearningsMasterData : cuid, managed {    
     learningID      : String(10) not null @assert.unique;        // Unique identifier
     courseCode      : String(50) not null @assert.unique;        // Course Code from table
     courseDescription : String(500) not null;            // Course Description from table
@@ -47,7 +48,7 @@ entity LearningsMasterData : cuid, managed {
                         on assignedlearnings.learningMaster = $self;
     
     // NO Composition here - we check "in use" before deletion via business logic
-}
+}*/
 
 // ============================================================================
 // PROJECTS MASTER DATA ENTITY
@@ -135,7 +136,6 @@ entity Learnings : cuid, managed {
     completedDate   : Date;
     score           : Decimal(5,2);
     
-
 }
 
 // ============================================================================
