@@ -1,5 +1,17 @@
 using EmployeeService as service from '../../srv/Employee-service';
 annotate service.Employees with @(
+    UI.HeaderInfo : {
+        TypeName       : 'Employee',
+        TypeNamePlural : 'Employees',
+        Title          : {
+            $Type : 'UI.DataField',
+            Value : employeeID,
+        },
+        Description    : {
+            $Type : 'UI.DataField',
+            Value : firstName,
+        },
+    },
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
         Data : [
