@@ -25,16 +25,6 @@ annotate service.Employees with @(
                 Label : 'lastName',
                 Value : lastName,
             },
-            {
-                $Type : 'UI.DataField',
-                Label : 'email',
-                Value : email,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'phoneNumber',
-                Value : phoneNumber,
-            },
         ],
     },
     UI.Facets : [
@@ -282,5 +272,29 @@ annotate service.LearningsMasterData with {
         Common.Text : courseDescription,
         Common.Text.@UI.TextArrangement : #TextSeparate,
     )
+};
+
+annotate service.Employees with {
+    employeeID @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Employees with {
+    status @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Employees with {
+    email @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Employees with {
+    joiningDate @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Employees with {
+    annualLeavesGranted @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Employees with {
+    annualLeavesUsed @Common.FieldControl : #ReadOnly
 };
 
