@@ -127,7 +127,10 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
 
     // ── Auto-generate email when name changes in draft ───────────────
     this.before('PATCH', 'Employees.drafts', async (req) => {
-      if (!req.data.firstName && !req.data.lastName) return;
+      if (!req.data.firstName && !req.data.lastName) {
+        req.data.email = undefined; // Clear email if name is removed
+        return;
+      }
 
       // PATCH only sends the changed field — read the draft to get both names
       const draft = await SELECT.one.from('EmployeeService.Employees.drafts')
@@ -138,27 +141,29 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
       const lastName = req.data.lastName || draft?.lastName;
 
       const email = await generateUniqueEmail(firstName, lastName);
-      if (email) req.data.email = email;
-    });
-
-    // ── Auto-generate fields on draft activation (Save) ─────────────
-    this.before('SAVE', 'Employees', async (req) => {
-      // Only run for newly created employees
-      const existing = await SELECT.one.from(Employees).where({ ID: req.data.ID });
-      if (existing) return;
-      // Ensure defaults are set (fallback if before NEW didn't persist them)
-      if (!req.data.employeeID) {
-        req.data.employeeID = await getNextEmployeeID();
+      if (email) {
+        req.data.email = email;
       }
-      if (!req.data.status) req.data.status = 'Active';
-      if (!req.data.annualLeavesGranted) req.data.annualLeavesGranted = 20;
-      if (req.data.annualLeavesUsed == null) req.data.annualLeavesUsed = 0;
-      if (!req.data.joiningDate) req.data.joiningDate = new Date().toISOString().slice(0, 10);
-
-      // Auto-generate Email (final unique check at save time)
-      const email = await generateUniqueEmail(req.data.firstName, req.data.lastName);
-      if (email) req.data.email = email;
     });
+
+    // // ── Auto-generate fields on draft activation (Save) ─────────────
+    // this.before('SAVE', 'Employees', async (req) => {
+    //   // Only run for newly created employees
+    //   const existing = await SELECT.one.from(Employees).where({ ID: req.data.ID });
+    //   if (existing) return;
+    //   // Ensure defaults are set (fallback if before NEW didn't persist them)
+    //   if (!req.data.employeeID) {
+    //     req.data.employeeID = await getNextEmployeeID();
+    //   }
+    //   if (!req.data.status) req.data.status = 'Active';
+    //   if (!req.data.annualLeavesGranted) req.data.annualLeavesGranted = 20;
+    //   if (req.data.annualLeavesUsed == null) req.data.annualLeavesUsed = 0;
+    //   if (!req.data.joiningDate) req.data.joiningDate = new Date().toISOString().slice(0, 10);
+
+    //   // Auto-generate Email (final unique check at save time)
+    //   const email = await generateUniqueEmail(req.data.firstName, req.data.lastName);
+    //   if (email) req.data.email = email;
+    // });
 
     return super.init();
   }
