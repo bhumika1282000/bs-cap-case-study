@@ -17,5 +17,6 @@
         "./@cds-models/*"
       ]
     }
-  }
+  },
+  "exclude": ["app", "gen", "node_modules"]
 }

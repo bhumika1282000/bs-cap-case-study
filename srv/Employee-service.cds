@@ -40,5 +40,5 @@ service EmployeeService {
     ]
     action permanentlyDeleteEmployee(employeeID : UUID);
 
-    entity LearningsMasterData as projection on db.LearningsMasterData;
+    @readonly entity LearningsMasterData as projection on db.LearningsMasterData;
 }

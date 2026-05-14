@@ -8,6 +8,7 @@ using {db.LearningsMasterData as LearningsMasterData} from './learningsMasterDat
 // ============================================================================
 
 type EmployeeStatus : String enum {
+    InPreparation;
     Active;
     Inactive;
     Terminated;
@@ -73,7 +74,6 @@ entity ProjectsMasterData : cuid, managed {
 // Fields: ID, First Name, Last Name, Email ID, Address, Phone Number, Status,
 //         Bank Name, Bank Account Number, Bank Code, Annual Leaves Granted, Annual Leaves Used
 // ============================================================================
-
 entity Employees : cuid, managed {
     employeeID      : String(10) not null @assert.unique;        // Unique Employee ID (auto-generated)
     firstName       : String(100) not null;              // First Name from table

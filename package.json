@@ -28,6 +28,12 @@
   },
   "cds": {
     "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db.sqlite"
+        }
+      },
       "db-ext": {
         "[development]": {
           "model": "db/sqlite"
