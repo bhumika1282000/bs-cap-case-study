@@ -1,7 +1,8 @@
 namespace db;
 
 using { cuid, managed } from '@sap/cds/common';
-using {db.LearningsMasterData as LearningsMasterData} from './learningsMasterData';
+using {db.LearningsMasterData } from './learningsMasterData';
+using {db.ProjectsMasterData } from './ProjectsMasterData';    
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -32,42 +33,10 @@ type ProjectStatus : String enum {
 }
 
 // ============================================================================
-// LEARNINGS MASTER DATA ENTITY
-// Master reference data for all available courses/learnings
-// Fields: ID, Course Description, Course Code, Initial, Course Contacts
-// ============================================================================
-
-/*entity LearningsMasterData : cuid, managed {    
-    learningID      : String(10) not null @assert.unique;        // Unique identifier
-    courseCode      : String(50) not null @assert.unique;        // Course Code from table
-    courseDescription : String(500) not null;            // Course Description from table
-    initialLevel    : String(100);                        // Initial (beginner/advance level)
-    courseContacts  : String(200);                        // Course Contacts (instructor name/email)
-    duration        : Integer;                            // Duration in hours
-    isActive        : Boolean default true;
-    assignedlearnings : Association to many Learnings
-                        on assignedlearnings.learningMaster = $self;
-    
-    // NO Composition here - we check "in use" before deletion via business logic
-}*/
-
-// ============================================================================
 // PROJECTS MASTER DATA ENTITY
 // Master reference data for all available projects
 // Fields: ID, Project Name, Project Description
 // ============================================================================
-
-entity ProjectsMasterData : cuid, managed {
-    projectID       : String(10) not null @assert.unique;        // Unique identifier
-    projectName     : String(200) not null;              // Project Name from table
-    projectDescription : String(1000) not null;          // Project Description from table
-    startDate       : Date;
-    endDate         : Date;
-    isActive        : Boolean default true;
-    assignedProjects : Association to many Projects
-                        on assignedProjects.projectMaster = $self;
-    
-}
 
 // ============================================================================
 // MAIN EMPLOYEES ENTITY
@@ -147,7 +116,6 @@ entity Learnings : cuid, managed {
 entity Projects : cuid, managed {
     employee        : Association to Employees;
     projectMaster   : Association to ProjectsMasterData;
-    projectDescription : String(1000);
     status          : ProjectStatus default 'Planned';
     assignedDate    : Date;
     completedDate   : Date;  

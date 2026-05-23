@@ -1,0 +1,6 @@
+ID;projectID;projectName;projectDescription;startDate;endDate;isActive
+aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa;P001;Cloud Migration;Migrate legacy systems to SAP BTP cloud platform;2025-01-15;2025-12-31;true
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb;P002;Fiori Redesign;Redesign existing SAP GUI screens to Fiori UX;2025-03-01;2025-09-30;true
+cccccccc-cccc-cccc-cccc-cccccccccccc;P003;S4HANA Implementation;Implement SAP S/4HANA for finance module;2025-02-01;2026-06-30;true
+dddddddd-dddd-dddd-dddd-dddddddddddd;P004;Data Analytics Platform;Build enterprise data analytics dashboard;2025-04-01;2025-11-30;true
+eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee;P005;Integration Suite;Integrate third-party systems via SAP Integration Suite;2025-05-15;2026-03-31;true

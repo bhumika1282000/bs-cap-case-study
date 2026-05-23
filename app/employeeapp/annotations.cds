@@ -64,6 +64,18 @@ annotate service.Employees with @(
             ID : 'Leanings',
             Target : 'assignedLearnings/@UI.LineItem#Leanings',
         },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Assigned Projects',
+            ID : 'AssignedProjects',
+            Target : 'assignedProjects/@UI.LineItem#AssignedProjects1',
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Ratings',
+            ID : 'Ratings',
+            Target : '@UI.FieldGroup#Ratings',
+        },
     ],
     UI.LineItem : [
         {
@@ -177,6 +189,31 @@ annotate service.Employees with @(
             },
         ],
     },
+    UI.FieldGroup #Ratings : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : ratings.rating,
+                Label : 'rating',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ratings.comments,
+                Label : 'comments',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ratings.year,
+                Label : 'year',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ratings.reviewerID,
+                Label : 'reviewerID',
+            },
+        ],
+    },
 );
 
 annotate service.Learnings with @(
@@ -210,6 +247,11 @@ annotate service.Learnings with @(
             $Type : 'UI.DataField',
             Value : completedDate,
             Label : 'completedDate',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : learningMaster.initialLevel,
+            Label : 'initialLevel',
         },
     ]
 );
@@ -261,6 +303,11 @@ annotate service.Learnings with {
                     ValueListProperty : 'courseCode',
                     LocalDataProperty : learningMaster.courseCode,
                 },
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    ValueListProperty : 'courseDescription',
+                    LocalDataProperty : learningMaster.courseDescription,
+                },
             ],
             Label : 'ID',
         },
@@ -296,5 +343,122 @@ annotate service.Employees with {
 
 annotate service.Employees with {
     annualLeavesUsed @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Projects with @(
+    UI.LineItem #AssignedProjects : [
+        {
+            $Type : 'UI.DataField',
+            Value : projectMaster_ID,
+            Label : 'projectMaster_ID',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : projectMaster.projectDescription,
+            Label : 'projectDescription',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : status,
+            Label : 'status',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : assignedDate,
+            Label : 'assignedDate',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : completedDate,
+            Label : 'completedDate',
+        },
+    ],
+    UI.LineItem #AssignedProjects1 : [
+        {
+            $Type : 'UI.DataField',
+            Value : projectMaster_ID,
+            Label : 'projectMaster_ID',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : projectMaster.projectName,
+            Label : 'projectName',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : projectMaster.projectDescription,
+            Label : 'projectDescription',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : status,
+            Label : 'status',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : assignedDate,
+            Label : 'assignedDate',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : completedDate,
+            Label : 'completedDate',
+        },
+    ],
+);
+
+annotate service.Ratings with {
+    ID @(
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Ratings',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : ID,
+                    ValueListProperty : 'ID',
+                },
+            ],
+            Label : 'ID',
+        },
+        Common.ValueListWithFixedValues : true,
+)};
+
+annotate service.Projects with {
+    projectMaster @(
+        Common.ExternalID : projectMaster.projectID,
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'ProjectsMasterData',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : projectMaster_ID,
+                    ValueListProperty : 'ID',
+                },
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    ValueListProperty : 'projectName',
+                    LocalDataProperty : projectMaster.projectName,
+                },
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    ValueListProperty : 'projectDescription',
+                    LocalDataProperty : projectMaster.projectDescription,
+                },
+            ],
+            Label : 'ID',
+        },
+        Common.ValueListWithFixedValues : false,
+)};
+
+annotate service.ProjectsMasterData with {
+    projectID @(
+        Common.Text : projectName,
+        Common.Text.@UI.TextArrangement : #TextSeparate,
+)};
+
+annotate service.Projects with {
+    projectDescription @Common.FieldControl : #ReadOnly
 };
 
