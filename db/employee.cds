@@ -84,7 +84,7 @@ entity Employees : cuid, managed {
 
 entity Ratings : cuid, managed {
     employee        : Association to Employees;
-    year            : Integer not null;
+    year            : String(4) not null;
     rating          : RatingValue not null;
     reviewerID      : String(100);
     comments        : String(1000);

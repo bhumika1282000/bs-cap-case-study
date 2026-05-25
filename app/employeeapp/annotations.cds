@@ -74,7 +74,7 @@ annotate service.Employees with @(
             $Type : 'UI.ReferenceFacet',
             Label : 'Ratings',
             ID : 'Ratings',
-            Target : '@UI.FieldGroup#Ratings',
+            Target : 'ratings/@UI.LineItem#Ratings',
         },
     ],
     UI.LineItem : [
@@ -461,4 +461,29 @@ annotate service.ProjectsMasterData with {
 annotate service.Projects with {
     projectDescription @Common.FieldControl : #ReadOnly
 };
+
+annotate service.Ratings with @(
+    UI.LineItem #Ratings : [
+        {
+            $Type : 'UI.DataField',
+            Value : employee.ratings.rating,
+            Label : 'rating',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : employee.ratings.comments,
+            Label : 'comments',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : employee.ratings.reviewerID,
+            Label : 'reviewerID',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : employee.ratings.year,
+            Label : 'year',
+        },
+    ]
+);
 

@@ -9,7 +9,7 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
     const db = await cds.connect.to('db');
 
     // {employeeId: 'I101' }
-    const { Employees: dbEmployees } = db.entities('db');
+    const { Employees: dbEmployees } = cds.entities('db');
     // ── Helper: get next sequential employee ID ──────────────────────
     async function getNextEmployeeID() {
       const last = await db.run(
@@ -141,6 +141,33 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
           .where({ bankAccountNumber: req.data.bankAccountNumber, ID: { '!=': req.data.ID } });
         if (duplicate) {
           req.reject(400, `Bank account number ${req.data.bankAccountNumber} is already assigned to employee ${duplicate.employeeID} : ${duplicate.firstName} ${duplicate.lastName}`);
+        }
+      }
+
+      if (req.data.ratings?.length) {
+        for (const r of req.data.ratings) {
+          if (r.rating < 1 || r.rating > 5) {
+            req.reject(400, `Rating must be between 1 and 5. Got: ${r.rating}`);
+          }
+          if (r.year && (!/^\d{4}$/.test(r.year) || parseInt(r.year) < 2000 || parseInt(r.year) > new Date().getFullYear())) {
+            req.reject(400, `Year must be between 2000 and ${new Date().getFullYear()}. Got: ${r.year}`);
+          }
+        }
+      }
+
+      if (req.data.assignedLearnings?.length) {
+        for (const l of req.data.assignedLearnings) {
+          if (l.assignedDate && l.completedDate && l.completedDate < l.assignedDate) {
+            req.reject(400, 'Learning completed date cannot be before assigned date');
+          }
+        }
+      }
+
+      if (req.data.assignedProjects?.length) {
+        for (const p of req.data.assignedProjects) {
+          if (p.assignedDate && p.completedDate && p.completedDate < p.assignedDate) {
+            req.reject(400, 'Project completed date cannot be before assigned date');
+          }
         }
       }
 
