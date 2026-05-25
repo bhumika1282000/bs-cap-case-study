@@ -100,8 +100,23 @@ annotate service.Employees with @(
         },
         {
             $Type : 'UI.DataField',
+            Value : status,
+            Label : 'status',
+        },
+        {
+            $Type : 'UI.DataField',
             Label : 'address',
             Value : address,
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeeService.deactivateEmployee',
+            Label : 'Deactivate Employee',
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeeService.permanentlyDeleteEmployee',
+            Label : 'Permanently Delete Employee',
         },
     ],
     UI.FieldGroup #EmploymentInformation : {
@@ -214,6 +229,18 @@ annotate service.Employees with @(
             },
         ],
     },
+    UI.Identification : [
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeeService.deactivateEmployee',
+            Label : 'Deactivate Employee',
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeeService.permanentlyDeleteEmployee',
+            Label : 'Permanently Delete Employee',
+        },
+    ],
 );
 
 annotate service.Learnings with @(
@@ -457,10 +484,6 @@ annotate service.ProjectsMasterData with {
         Common.Text : projectName,
         Common.Text.@UI.TextArrangement : #TextSeparate,
 )};
-
-annotate service.Projects with {
-    projectDescription @Common.FieldControl : #ReadOnly
-};
 
 annotate service.Ratings with @(
     UI.LineItem #Ratings : [

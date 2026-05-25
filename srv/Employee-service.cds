@@ -6,10 +6,19 @@ service EmployeeService {
     @restrict: [ 
     
       { grant: 'READ', to: 'authenticated-user' },
-      { grant: 'WRITE', to: 'authenticated-user' }
+      { grant: 'WRITE', to: 'authenticated-user' },
+      { grant: 'EXECUTE', to: 'authenticated-user' }
      
     ]
-    entity Employees as projection on db.Employees{ * };
+    entity Employees as projection on db.Employees{ * }
+      actions {
+        @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
+        @Common.IsActionCritical
+        action deactivateEmployee() returns String;
+        @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
+        @Common.IsActionCritical
+        action permanentlyDeleteEmployee() returns String;
+      };
 
  // ========== CHILD ENTITIES ==========
     @restrict: [
@@ -29,16 +38,6 @@ service EmployeeService {
         { grant: 'WRITE', to: 'authenticated-user' }
     ]
     entity Projects as projection on db.Projects{ * };   
-
-     @restrict: [
-        { grant: 'EXECUTE', to: 'authenticated-user' }
-    ]
-    action deactivateEmployee(employeeID : UUID);
-
-     @restrict: [
-        { grant: 'EXECUTE', to: 'authenticated-user' }
-    ]
-    action permanentlyDeleteEmployee(employeeID : UUID);
 
     @readonly entity LearningsMasterData as projection on db.LearningsMasterData;
     @readonly entity ProjectsMasterData as projection on db.ProjectsMasterData;

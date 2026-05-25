@@ -25,7 +25,9 @@
     "watch": "cds watch --open com.employee.employeeui/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-employee": "cds watch --open employee.employee/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-employeeapp": "cds watch --open employeeapp/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-learningsapp": "cds watch --open learningsapp/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-learningsapp": "cds watch --open learningsapp/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-learningapp": "cds watch --open learningapp/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-projectapp": "cds watch --open projectapp/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "cds": {
     "requires": {
@@ -80,7 +82,9 @@
   "sapux": [
     "app/employee",
     "app/employee",
-    "app/employeeapp"
+    "app/employeeapp",
+    "app/learningapp",
+    "app/projectapp"
   ],
   "imports": {
     "#cds-models/*": "./@cds-models/*/index.js"

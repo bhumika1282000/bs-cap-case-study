@@ -1,7 +1,7 @@
 {
   "_version": "1.83.0",
   "sap.app": {
-    "id": "employeeapp",
+    "id": "projectapp",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,11 +13,11 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.22.0",
-      "toolsId": "6e844e1f-3cc0-4885-949c-ad803526c07e"
+      "toolsId": "2514dfe5-866a-4f14-af20-fa8926fa087c"
     },
     "dataSources": {
       "mainService": {
-        "uri": "/odata/v4/employee/",
+        "uri": "/odata/v4/project/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -27,10 +27,10 @@
     },
     "crossNavigation": {
       "inbounds": {
-        "employee-display": {
-          "semanticObject": "employee",
-          "action": "display",
-          "title": "{{employee-display.flpTitle}}",
+        "projectapp-projectapp": {
+          "semanticObject": "projectapp",
+          "action": "projectapp",
+          "title": "{{projectapp-projectapp.flpTitle}}",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
@@ -58,7 +58,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.147.1",
+      "minUI5Version": "1.148.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -73,7 +73,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "employeeapp.i18n.i18n"
+          "bundleName": "projectapp.i18n.i18n"
         }
       },
       "": {
@@ -98,28 +98,33 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "EmployeesList",
-          "target": "EmployeesList"
+          "name": "ProjectsMasterDataList",
+          "target": "ProjectsMasterDataList"
         },
         {
-          "pattern": "Employees({key}):?query:",
-          "name": "EmployeesObjectPage",
-          "target": "EmployeesObjectPage"
+          "pattern": "ProjectsMasterData({key}):?query:",
+          "name": "ProjectsMasterDataObjectPage",
+          "target": "ProjectsMasterDataObjectPage"
+        },
+        {
+          "pattern": "ProjectsMasterData({key})/assignedprojects({key2}):?query:",
+          "name": "ProjectsObjectPage",
+          "target": "ProjectsObjectPage"
         }
       ],
       "targets": {
-        "EmployeesList": {
+        "ProjectsMasterDataList": {
           "type": "Component",
-          "id": "EmployeesList",
+          "id": "ProjectsMasterDataList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "contextPath": "/Employees",
+              "contextPath": "/ProjectsMasterData",
               "variantManagement": "Page",
               "navigation": {
-                "Employees": {
+                "ProjectsMasterData": {
                   "detail": {
-                    "route": "EmployeesObjectPage"
+                    "route": "ProjectsMasterDataObjectPage"
                   }
                 }
               },
@@ -127,41 +132,38 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
-                  },
-                  "actions": {
-                    "DataFieldForAction::EmployeeService.deactivateEmployee": {
-                      "enableOnSelect": "multi",
-                      "position": {
-                        "anchor": "DataFieldForAction::EmployeeService.permanentlyDeleteEmployee",
-                        "placement": "Before"
-                      }
-                    }
                   }
                 }
-              },
-              "initialLoad": "Enabled"
+              }
             }
           }
         },
-        "EmployeesObjectPage": {
+        "ProjectsMasterDataObjectPage": {
           "type": "Component",
-          "id": "EmployeesObjectPage",
+          "id": "ProjectsMasterDataObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Employees",
-              "controlConfiguration": {
-                "assignedLearnings/@com.sap.vocabularies.UI.v1.LineItem#Leanings": {
-                  "tableSettings": {
-                    "creationMode": {
-                      "name": "Inline",
-                      "createAtEnd": false
-                    },
-                    "type": "ResponsiveTable"
+              "contextPath": "/ProjectsMasterData",
+              "navigation": {
+                "assignedprojects": {
+                  "detail": {
+                    "route": "ProjectsObjectPage"
                   }
                 }
               }
+            }
+          }
+        },
+        "ProjectsObjectPage": {
+          "type": "Component",
+          "id": "ProjectsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/ProjectsMasterData/assignedprojects"
             }
           }
         }

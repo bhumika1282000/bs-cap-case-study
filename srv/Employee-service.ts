@@ -179,6 +179,29 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
       if (email) req.data.email = email;
     });
 
+    // ── Deactivate Employee ─────────────────────────────────────────
+    this.on('deactivateEmployee', 'Employees', async (req) => {
+      const { ID } = req.params[0] as any;
+      const employee = await SELECT.one.from(Employees).where({ ID });
+      if (!employee) return req.reject(404, `Employee not found`);
+      if (employee.status === 'Inactive') return req.reject(400, `Employee ${employee.employeeID} is already inactive`);
+      if (employee.status !== 'Active') return req.reject(400, `Only active employees can be deactivated`);
+
+      await UPDATE(Employees).set({ status: 'Inactive' }).where({ ID });
+      return `Employee ${employee.employeeID} (${employee.firstName} ${employee.lastName}) has been deactivated`;
+    });
+
+    // ── Permanently Delete Employee ─────────────────────────────────
+    this.on('permanentlyDeleteEmployee', 'Employees', async (req) => {
+      const { ID } = req.params[0] as any;
+      const employee = await SELECT.one.from(Employees).where({ ID });
+      if (!employee) return req.reject(404, `Employee not found`);
+      if (employee.status !== 'Inactive') return req.reject(400, `Only inactive employees can be permanently deleted`);
+
+      await DELETE.from(Employees).where({ ID });
+      return `Employee ${employee.employeeID} (${employee.firstName} ${employee.lastName}) has been permanently deleted`;
+    });
+
     return super.init();
   }
 }

@@ -1,7 +1,7 @@
 {
   "_version": "1.83.0",
   "sap.app": {
-    "id": "employeeapp",
+    "id": "learningapp",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,11 +13,11 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.22.0",
-      "toolsId": "6e844e1f-3cc0-4885-949c-ad803526c07e"
+      "toolsId": "faf29e33-e110-4def-aee0-df31b54bc91b"
     },
     "dataSources": {
       "mainService": {
-        "uri": "/odata/v4/employee/",
+        "uri": "/odata/v4/learning/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -27,10 +27,10 @@
     },
     "crossNavigation": {
       "inbounds": {
-        "employee-display": {
-          "semanticObject": "employee",
-          "action": "display",
-          "title": "{{employee-display.flpTitle}}",
+        "learningsapp-learningapp": {
+          "semanticObject": "learningsapp",
+          "action": "learningapp",
+          "title": "{{learningsapp-learningapp.flpTitle}}",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
@@ -58,7 +58,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.147.1",
+      "minUI5Version": "1.148.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -73,7 +73,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "employeeapp.i18n.i18n"
+          "bundleName": "learningapp.i18n.i18n"
         }
       },
       "": {
@@ -98,28 +98,33 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "EmployeesList",
-          "target": "EmployeesList"
+          "name": "LearningsMasterDataList",
+          "target": "LearningsMasterDataList"
         },
         {
-          "pattern": "Employees({key}):?query:",
-          "name": "EmployeesObjectPage",
-          "target": "EmployeesObjectPage"
+          "pattern": "LearningsMasterData({key}):?query:",
+          "name": "LearningsMasterDataObjectPage",
+          "target": "LearningsMasterDataObjectPage"
+        },
+        {
+          "pattern": "LearningsMasterData({key})/assignedlearnings({key2}):?query:",
+          "name": "LearningsObjectPage",
+          "target": "LearningsObjectPage"
         }
       ],
       "targets": {
-        "EmployeesList": {
+        "LearningsMasterDataList": {
           "type": "Component",
-          "id": "EmployeesList",
+          "id": "LearningsMasterDataList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "contextPath": "/Employees",
+              "contextPath": "/LearningsMasterData",
               "variantManagement": "Page",
               "navigation": {
-                "Employees": {
+                "LearningsMasterData": {
                   "detail": {
-                    "route": "EmployeesObjectPage"
+                    "route": "LearningsMasterDataObjectPage"
                   }
                 }
               },
@@ -127,41 +132,38 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
-                  },
-                  "actions": {
-                    "DataFieldForAction::EmployeeService.deactivateEmployee": {
-                      "enableOnSelect": "multi",
-                      "position": {
-                        "anchor": "DataFieldForAction::EmployeeService.permanentlyDeleteEmployee",
-                        "placement": "Before"
-                      }
-                    }
                   }
                 }
-              },
-              "initialLoad": "Enabled"
+              }
             }
           }
         },
-        "EmployeesObjectPage": {
+        "LearningsMasterDataObjectPage": {
           "type": "Component",
-          "id": "EmployeesObjectPage",
+          "id": "LearningsMasterDataObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Employees",
-              "controlConfiguration": {
-                "assignedLearnings/@com.sap.vocabularies.UI.v1.LineItem#Leanings": {
-                  "tableSettings": {
-                    "creationMode": {
-                      "name": "Inline",
-                      "createAtEnd": false
-                    },
-                    "type": "ResponsiveTable"
+              "contextPath": "/LearningsMasterData",
+              "navigation": {
+                "assignedlearnings": {
+                  "detail": {
+                    "route": "LearningsObjectPage"
                   }
                 }
               }
+            }
+          }
+        },
+        "LearningsObjectPage": {
+          "type": "Component",
+          "id": "LearningsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/LearningsMasterData/assignedlearnings"
             }
           }
         }
