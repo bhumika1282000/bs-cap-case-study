@@ -1,5 +1,6 @@
 using EmployeeService as service from '../../srv/Employee-service';
 annotate service.Employees with @(
+    UI.DeleteHidden : true,
     UI.UpdateHidden : {
         $edmJson : {
             $Eq : [{ $Path : 'status' }, 'Obsolete']
@@ -112,6 +113,11 @@ annotate service.Employees with @(
             $Type : 'UI.DataField',
             Label : 'address',
             Value : address,
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeeService.permanentlyDeleteEmployee',
+            Label : 'Permanently Delete',
         },
     ],
     UI.FieldGroup #EmploymentInformation : {
@@ -229,6 +235,11 @@ annotate service.Employees with @(
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeeService.deactivateEmployee',
             Label : 'Obsolete',
+            ![@UI.Hidden] : {
+                $edmJson : {
+                    $Eq : [{ $Path : 'status' }, 'Obsolete']
+                }
+            },
         },
         {
             $Type : 'UI.DataFieldForAction',
@@ -237,7 +248,6 @@ annotate service.Employees with @(
         },
     ],
 );
-
 
 annotate service.Learnings with @(
     UI.LineItem #Leanings : [

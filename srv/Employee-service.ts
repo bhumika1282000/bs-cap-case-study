@@ -96,6 +96,12 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
     }
 
     // ── Defaults when a new draft is created ────────────────────────
+    this.after('READ', 'Employees', (result: any) => {
+      const rows = Array.isArray(result) ? result : [result];
+      for (const row of rows) {
+        if (row) row.isDeactivatable = row.status !== 'Obsolete';
+      }
+    });
 
     this.before('CREATE', 'Employees.drafts', async (req) => {
       req.data.employeeID = await getNextEmployeeID();
