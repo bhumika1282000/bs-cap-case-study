@@ -176,7 +176,10 @@
   },
   "sap.fe": {
     "app": {
-      "enableLazyLoading": true
+      "enableLazyLoading": true,
+      "hideDraft": {
+        "enabled": true
+      }
     }
   }
 }

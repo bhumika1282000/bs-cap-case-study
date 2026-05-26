@@ -99,17 +99,26 @@
         {
           "pattern": ":?query:",
           "name": "LearningsMasterDataList",
-          "target": "LearningsMasterDataList"
+          "target": [
+            "LearningsMasterDataList"
+          ]
         },
         {
           "pattern": "LearningsMasterData({key}):?query:",
           "name": "LearningsMasterDataObjectPage",
-          "target": "LearningsMasterDataObjectPage"
+          "target": [
+            "LearningsMasterDataList",
+            "LearningsMasterDataObjectPage"
+          ]
         },
         {
           "pattern": "LearningsMasterData({key})/assignedlearnings({key2}):?query:",
           "name": "LearningsObjectPage",
-          "target": "LearningsObjectPage"
+          "target": [
+            "LearningsMasterDataList",
+            "LearningsMasterDataObjectPage",
+            "LearningsObjectPage"
+          ]
         }
       ],
       "targets": {
@@ -176,7 +185,10 @@
   },
   "sap.fe": {
     "app": {
-      "enableLazyLoading": true
+      "enableLazyLoading": true,
+      "hideDraft": {
+        "enabled": true
+      }
     }
   }
 }

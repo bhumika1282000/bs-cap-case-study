@@ -1,5 +1,10 @@
 using EmployeeService as service from '../../srv/Employee-service';
 annotate service.Employees with @(
+    UI.UpdateHidden : {
+        $edmJson : {
+            $Eq : [{ $Path : 'status' }, 'Obsolete']
+        }
+    },
     UI.HeaderInfo : {
         TypeName       : 'Employee',
         TypeNamePlural : 'Employees',
@@ -17,7 +22,7 @@ annotate service.Employees with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'firstName',
+                Label : '{i18n>Firstname}',
                 Value : firstName,
             },
             {
@@ -107,16 +112,6 @@ annotate service.Employees with @(
             $Type : 'UI.DataField',
             Label : 'address',
             Value : address,
-        },
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'EmployeeService.deactivateEmployee',
-            Label : 'Deactivate Employee',
-        },
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'EmployeeService.permanentlyDeleteEmployee',
-            Label : 'Permanently Delete Employee',
         },
     ],
     UI.FieldGroup #EmploymentInformation : {
@@ -233,7 +228,7 @@ annotate service.Employees with @(
         {
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeeService.deactivateEmployee',
-            Label : 'Deactivate Employee',
+            Label : 'Obsolete',
         },
         {
             $Type : 'UI.DataFieldForAction',
@@ -242,6 +237,7 @@ annotate service.Employees with @(
         },
     ],
 );
+
 
 annotate service.Learnings with @(
     UI.LineItem #Leanings : [
@@ -262,8 +258,8 @@ annotate service.Learnings with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : score,
-            Label : 'score',
+            Value : status,
+            Label : 'status',
         },
         {
             $Type : 'UI.DataField',
@@ -326,14 +322,12 @@ annotate service.Learnings with {
                     ValueListProperty : 'ID',
                 },
                 {
-                    $Type : 'Common.ValueListParameterInOut',
+                    $Type : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'courseCode',
-                    LocalDataProperty : learningMaster.courseCode,
                 },
                 {
-                    $Type : 'Common.ValueListParameterInOut',
+                    $Type : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'courseDescription',
-                    LocalDataProperty : learningMaster.courseDescription,
                 },
             ],
             Label : 'ID',
@@ -418,11 +412,6 @@ annotate service.Projects with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : status,
-            Label : 'status',
-        },
-        {
-            $Type : 'UI.DataField',
             Value : assignedDate,
             Label : 'assignedDate',
         },
@@ -464,14 +453,12 @@ annotate service.Projects with {
                     ValueListProperty : 'ID',
                 },
                 {
-                    $Type : 'Common.ValueListParameterInOut',
+                    $Type : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'projectName',
-                    LocalDataProperty : projectMaster.projectName,
                 },
                 {
-                    $Type : 'Common.ValueListParameterInOut',
+                    $Type : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'projectDescription',
-                    LocalDataProperty : projectMaster.projectDescription,
                 },
             ],
             Label : 'ID',
@@ -488,8 +475,8 @@ annotate service.ProjectsMasterData with {
 annotate service.Ratings with @(
     UI.LineItem #Ratings : [
         {
-            $Type : 'UI.DataField',
-            Value : employee.ratings.rating,
+            $Type : 'UI.DataFieldForAnnotation',
+            Target : '@UI.DataPoint#rating',
             Label : 'rating',
         },
         {
@@ -507,6 +494,28 @@ annotate service.Ratings with @(
             Value : employee.ratings.year,
             Label : 'year',
         },
-    ]
+    ],
+    UI.DataPoint #rating : {
+        Value : rating,
+        Visualization : #Rating,
+        TargetValue : 5,
+    },
 );
+
+annotate service.Learnings with {
+    status @(
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Learnings',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : status,
+                    ValueListProperty : 'status',
+                },
+            ],
+            Label : 'status',
+        },
+        Common.ValueListWithFixedValues : true,
+)};
 

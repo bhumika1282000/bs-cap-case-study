@@ -11,7 +11,7 @@ using {db.ProjectsMasterData } from './ProjectsMasterData';
 type EmployeeStatus : String enum {
     InPreparation;
     Active;
-    Inactive;
+    Obsolete;
     Terminated;
 }
 
@@ -24,13 +24,6 @@ type LearningStatus : String enum {
     Completed;
 }
 
-type ProjectStatus : String enum {
-    NotStarted;
-    Planned;
-    InProgress;
-    Completed;
-    OnHold;
-}
 
 // ============================================================================
 // PROJECTS MASTER DATA ENTITY
@@ -103,7 +96,6 @@ entity Learnings : cuid, managed {
     status          : LearningStatus default 'Assigned';
     assignedDate    : Date;
     completedDate   : Date;
-    score           : Decimal(5,2);
     
 }
 
@@ -116,7 +108,6 @@ entity Learnings : cuid, managed {
 entity Projects : cuid, managed {
     employee        : Association to Employees;
     projectMaster   : Association to ProjectsMasterData;
-    status          : ProjectStatus default 'Planned';
     assignedDate    : Date;
     completedDate   : Date;  
     }

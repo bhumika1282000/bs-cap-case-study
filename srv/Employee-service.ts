@@ -96,6 +96,7 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
     }
 
     // ── Defaults when a new draft is created ────────────────────────
+
     this.before('CREATE', 'Employees.drafts', async (req) => {
       req.data.employeeID = await getNextEmployeeID();
       req.data.status = 'InPreparation';
@@ -107,7 +108,7 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
     // ── Auto-assign initial (Beginner) learnings after draft is created ──
     this.after('CREATE', 'Employees.drafts', async (data) => {
       const beginnerCourses = await SELECT.from(LearningsMasterData)
-          .where({ initialLevel: 'Beginner', isActive: true });
+          .where({ initialLevel: true });
       if (beginnerCourses.length === 0) return;
 
       const today = new Date().toISOString().slice(0, 10);
@@ -184,22 +185,23 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
       const { ID } = req.params[0] as any;
       const employee = await SELECT.one.from(Employees).where({ ID });
       if (!employee) return req.reject(404, `Employee not found`);
-      if (employee.status === 'Inactive') return req.reject(400, `Employee ${employee.employeeID} is already inactive`);
-      if (employee.status !== 'Active') return req.reject(400, `Only active employees can be deactivated`);
+      if (employee.status === 'Obsolete') return req.reject(400, `Employee ${employee.employeeID} is already obsolete`);
+      if (employee.status !== 'Active') return req.reject(400, `Only active employees can be marked obsolete`);
 
-      await UPDATE(Employees).set({ status: 'Inactive' }).where({ ID });
-      return `Employee ${employee.employeeID} (${employee.firstName} ${employee.lastName}) has been deactivated`;
-    });
+      await UPDATE(Employees).set({ status: 'Obsolete' }).where({ ID });
+      req.notify(`Employee ${employee.employeeID} (${employee.firstName} ${employee.lastName}) has been marked obsolete`);
+      return SELECT.one.from(Employees).where({ ID });
+      });
 
     // ── Permanently Delete Employee ─────────────────────────────────
     this.on('permanentlyDeleteEmployee', 'Employees', async (req) => {
       const { ID } = req.params[0] as any;
       const employee = await SELECT.one.from(Employees).where({ ID });
       if (!employee) return req.reject(404, `Employee not found`);
-      if (employee.status !== 'Inactive') return req.reject(400, `Only inactive employees can be permanently deleted`);
+      if (employee.status !== 'Obsolete') return req.reject(400, `Only obsolete employees can be permanently deleted`);
 
       await DELETE.from(Employees).where({ ID });
-      return `Employee ${employee.employeeID} (${employee.firstName} ${employee.lastName}) has been permanently deleted`;
+      req.notify(`Employee ${employee.employeeID} (${employee.firstName} ${employee.lastName}) has been permanently deleted`);
     });
 
     return super.init();

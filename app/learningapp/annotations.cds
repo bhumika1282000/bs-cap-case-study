@@ -34,8 +34,13 @@ annotate LearningService.LearningsMasterData with @(
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'initialLevel',
+                Label : 'Initial Learning',
                 Value : initialLevel,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'Availability',
+                Value : availability,
             },
             {
                 $Type : 'UI.DataField',
@@ -46,11 +51,6 @@ annotate LearningService.LearningsMasterData with @(
                 $Type : 'UI.DataField',
                 Label : 'duration',
                 Value : duration,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'isActive',
-                Value : isActive,
             },
         ],
     },
@@ -80,8 +80,13 @@ annotate LearningService.LearningsMasterData with @(
         },
         {
             $Type : 'UI.DataField',
-            Label : 'initialLevel',
+            Label : 'Initial Learning',
             Value : initialLevel,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Availability',
+            Value : availability,
         },
         {
             $Type : 'UI.DataField',
@@ -89,16 +94,5 @@ annotate LearningService.LearningsMasterData with @(
             Value : courseContacts,
         },
     ],
-);
-
-annotate service.Learnings with @(
-    UI.Facets : [
-        
-    ],
-    UI.FieldGroup #assignedlearnings : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-        ],
-    },
 );
 

@@ -127,15 +127,6 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
-                  },
-                  "actions": {
-                    "DataFieldForAction::EmployeeService.deactivateEmployee": {
-                      "enableOnSelect": "multi",
-                      "position": {
-                        "anchor": "DataFieldForAction::EmployeeService.permanentlyDeleteEmployee",
-                        "placement": "Before"
-                      }
-                    }
                   }
                 }
               },

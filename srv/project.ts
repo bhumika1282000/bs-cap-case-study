@@ -5,9 +5,6 @@ export default class ProjectServiceHandler extends cds.ApplicationService {
     const { ProjectsMasterData } = this.entities;
 
     this.before(['CREATE', 'UPDATE'], 'ProjectsMasterData', async (req) => {
-      if (req.data.startDate && req.data.endDate && req.data.endDate < req.data.startDate) {
-        req.reject(400, 'End date cannot be before start date');
-      }
     });
 
     this.before('DELETE', 'ProjectsMasterData', async (req) => {

@@ -13,7 +13,7 @@ annotate ProjectService.ProjectsMasterData with @(
             $Type : 'UI.DataField',
             Value : projectDescription,
         },
-    }
+    },
 );
 
 annotate ProjectService.ProjectsMasterData with @(
@@ -35,21 +35,6 @@ annotate ProjectService.ProjectsMasterData with @(
                 Label : 'projectDescription',
                 Value : projectDescription,
             },
-            {
-                $Type : 'UI.DataField',
-                Label : 'startDate',
-                Value : startDate,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'endDate',
-                Value : endDate,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'isActive',
-                Value : isActive,
-            },
         ],
     },
     UI.Facets : [
@@ -59,6 +44,7 @@ annotate ProjectService.ProjectsMasterData with @(
             Label : 'Project details',
             Target : '@UI.FieldGroup#GeneratedGroup',
         },
+
     ],
     UI.LineItem : [
         {
@@ -75,16 +61,6 @@ annotate ProjectService.ProjectsMasterData with @(
             $Type : 'UI.DataField',
             Label : 'projectDescription',
             Value : projectDescription,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'startDate',
-            Value : startDate,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'endDate',
-            Value : endDate,
         },
     ],
 );

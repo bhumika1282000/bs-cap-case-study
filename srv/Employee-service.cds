@@ -14,10 +14,13 @@ service EmployeeService {
       actions {
         @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
         @Common.IsActionCritical
-        action deactivateEmployee() returns String;
+        @Common.SideEffects: {
+            TargetProperties: ['in/status']
+        }
+        action deactivateEmployee() returns Employees;
         @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
         @Common.IsActionCritical
-        action permanentlyDeleteEmployee() returns String;
+        action permanentlyDeleteEmployee();
       };
 
  // ========== CHILD ENTITIES ==========
