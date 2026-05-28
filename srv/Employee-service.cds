@@ -20,7 +20,7 @@ service EmployeeService {
         @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
         @Common.IsActionCritical
         @Common.SideEffects: {
-            TargetProperties: ['in/status']
+            TargetEntities: ['in/']
         }
         @Core.OperationAvailable: isDeactivatable
         action deactivateEmployee() returns Employees;

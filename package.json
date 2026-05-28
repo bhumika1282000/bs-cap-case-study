@@ -9,11 +9,21 @@
     "@cap-js/cds-typer": "^0.38.0",
     "@cap-js/cds-types": "^0.16.0",
     "@cap-js/sqlite": "^2",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@sap-ux/eslint-plugin-fiori-tools": "^9.11.7",
     "@sap/ux-ui5-tooling": "^1.24.0",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^24.0.0",
+    "@types/sinon": "^21.0.1",
     "cds-plugin-ui5": "^0.13.0",
+    "chai": "^6.2.2",
     "eslint": "^9.39.4",
+    "mocha": "^11.7.6",
+    "nyc": "^18.0.0",
+    "sinon": "^22.0.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
     "tsx": "^4",
     "typescript": "^5"
   },
@@ -27,7 +37,11 @@
     "watch-employeeapp": "cds watch --open employeeapp/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-learningsapp": "cds watch --open learningsapp/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-learningapp": "cds watch --open learningapp/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-projectapp": "cds watch --open projectapp/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-projectapp": "cds watch --open projectapp/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "test": "rm -f db.sqlite* && mocha && rm -f db.sqlite* && cds deploy --to sqlite",
+    "test:unit": "mocha 'test/unit/**/*.test.ts'",
+    "test:integration": "rm -f db.sqlite* && mocha 'test/integration/**/*.test.ts' && rm -f db.sqlite* && cds deploy --to sqlite",
+    "test:coverage": "nyc npm test"
   },
   "cds": {
     "requires": {
