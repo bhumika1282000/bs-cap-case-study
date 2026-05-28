@@ -95,14 +95,30 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
       return email;
     }
 
-    // ── Defaults when a new draft is created ────────────────────────
-    this.after('READ', 'Employees', (result: any) => {
-      const rows = Array.isArray(result) ? result : [result];
-      for (const row of rows) {
-        if (row) row.isDeactivatable = row.status !== 'Obsolete';
+    // ── Calculate remaining leaves after read ────────────────────
+    this.after('READ', 'Employees', (employees: any) => {
+      // Guard: no data
+      if (!employees) return;
+
+      // Normalize to array
+      const employeeList = Array.isArray(employees) ? employees : [employees];
+
+      for (const employee of employeeList) {
+        const leavesGranted = employee.annualLeavesGranted ?? 0;
+        const leavesUsed = employee.annualLeavesUsed ?? 0;
+
+        // Guard: invalid input → set null and skip
+        if (leavesUsed < 0 || leavesUsed > leavesGranted) {
+          employee.remainingLeaves = null;
+          continue;
+        }
+
+        // Happy path: calculate remaining leaves
+        employee.remainingLeaves = leavesGranted - leavesUsed;
       }
     });
 
+    // ── Defaults when a new draft is created ────────────────────────
     this.before('CREATE', 'Employees.drafts', async (req) => {
       req.data.employeeID = await getNextEmployeeID();
       req.data.status = 'InPreparation';
@@ -142,6 +158,36 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
         req.reject(400, 'Last name must contain only letters, spaces, hyphens, or apostrophes');
       }
 
+      // Phone number: exactly 10 numeric digits
+      if (req.data.phoneNumber && !/^\d{10}$/.test(req.data.phoneNumber)) {
+        req.reject(400, 'Phone number must be exactly 10 digits');
+      }
+
+      // Role: letters, numbers, spaces, hyphens, / (e.g., "SDE2", "Senior Developer")
+      if (req.data.role && !/^[a-zA-Z0-9\s\-\/]+$/.test(req.data.role)) {
+        req.reject(400, 'Role must contain only letters, numbers, spaces, hyphens, or /');
+      }
+
+      // Department: letters, spaces, &, - (e.g., "R&D", "Human Resources")
+      if (req.data.department && !/^[a-zA-Z\s&\-]+$/.test(req.data.department)) {
+        req.reject(400, 'Department must contain only letters, spaces, & or hyphens');
+      }
+
+      // Bank Code: 8-11 alphanumeric (SWIFT/BIC format)
+      if (req.data.bankCode && !/^[A-Z0-9]{8,11}$/i.test(req.data.bankCode)) {
+        req.reject(400, 'Bank code must be 8-11 alphanumeric characters');
+      }
+
+      // Bank Name: letters, spaces, &, . (e.g., "State Bank of India", "HDFC Bank Ltd.")
+      if (req.data.bankName && !/^[a-zA-Z\s&.]+$/.test(req.data.bankName)) {
+        req.reject(400, 'Bank name must contain only letters, spaces, & or .');
+      }
+
+      // Bank Account Number: 8-20 digits
+      if (req.data.bankAccountNumber && !/^\d{8,20}$/.test(req.data.bankAccountNumber)) {
+        req.reject(400, 'Bank account number must be 8-20 digits');
+      }
+
       if (req.data.bankAccountNumber) {
         const duplicate = await SELECT.one.from(Employees)
           .columns('employeeID', 'firstName', 'lastName')
@@ -175,6 +221,17 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
           if (p.assignedDate && p.completedDate && p.completedDate < p.assignedDate) {
             req.reject(400, 'Project completed date cannot be before assigned date');
           }
+        }
+      }
+
+      // Validate leaves used doesn't exceed granted
+      const { annualLeavesGranted, annualLeavesUsed } = req.data;
+      if (annualLeavesUsed !== undefined && annualLeavesGranted !== undefined) {
+        if (annualLeavesUsed > annualLeavesGranted) {
+          req.reject(400, `Leaves used (${annualLeavesUsed}) cannot exceed leaves granted (${annualLeavesGranted})`);
+        }
+        if (annualLeavesUsed < 0) {
+          req.reject(400, `Leaves used cannot be negative`);
         }
       }
 

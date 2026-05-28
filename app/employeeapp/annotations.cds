@@ -28,7 +28,7 @@ annotate service.Employees with @(
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'lastName',
+                Label : '{i18n>Lastname}',
                 Value : lastName,
             },
         ],
@@ -86,32 +86,32 @@ annotate service.Employees with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'employeeID',
+            Label : '{i18n>Employeeid}',
             Value : employeeID,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'firstName',
+            Label : '{i18n>Firstname1}',
             Value : firstName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'lastName',
+            Label : '{i18n>Lastname}',
             Value : lastName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'email',
+            Label : '{i18n>Email}',
             Value : email,
         },
         {
             $Type : 'UI.DataField',
             Value : status,
-            Label : 'status',
+            Label : '{i18n>Status}',
         },
         {
             $Type : 'UI.DataField',
-            Label : 'address',
+            Label : '{i18n>Address}',
             Value : address,
         },
         {
@@ -126,32 +126,32 @@ annotate service.Employees with @(
             {
                 $Type : 'UI.DataField',
                 Value : employeeID,
-                Label : 'employeeID',
+                Label : '{i18n>Employeeid}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : role,
-                Label : 'role',
+                Label : '{i18n>Role}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : status,
-                Label : 'status',
+                Label : '{i18n>Status}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : email,
-                Label : 'email',
+                Label : '{i18n>Email}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : department,
-                Label : 'department',
+                Label : '{i18n>Department}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : joiningDate,
-                Label : 'joiningDate',
+                Label : '{i18n>Joiningdate}',
             },
         ],
     },
@@ -161,17 +161,17 @@ annotate service.Employees with @(
             {
                 $Type : 'UI.DataField',
                 Value : bankCode,
-                Label : 'bankCode',
+                Label : '{i18n>Bankcode}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : bankAccountNumber,
-                Label : 'bankAccountNumber',
+                Label : '{i18n>Bankaccountnumber}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : bankName,
-                Label : 'bankName',
+                Label : '{i18n>Bankname}',
             },
         ],
     },
@@ -181,12 +181,17 @@ annotate service.Employees with @(
             {
                 $Type : 'UI.DataField',
                 Value : annualLeavesGranted,
-                Label : 'annualLeavesGranted',
+                Label : '{i18n>Annualleavesgranted}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : annualLeavesUsed,
-                Label : 'annualLeavesUsed',
+                Label : '{i18n>Annualleavesused}',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : remainingLeaves,
+                Label : 'Remaining Leaves',
             },
         ],
     },
@@ -196,12 +201,12 @@ annotate service.Employees with @(
             {
                 $Type : 'UI.DataField',
                 Value : phoneNumber,
-                Label : 'phoneNumber',
+                Label : '{i18n>Phonenumber}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : address,
-                Label : 'address',
+                Label : '{i18n>Address}',
             },
         ],
     },
@@ -254,37 +259,37 @@ annotate service.Learnings with @(
         {
             $Type : 'UI.DataField',
             Value : learningMaster_ID,
-            Label : 'learningMaster_ID',
+            Label : '{i18n>Learningmasterid}',
         },
         {
             $Type : 'UI.DataField',
             Value : learningMaster.courseCode,
-            Label : 'courseCode',
+            Label : '{i18n>Coursecode}',
         },
         {
             $Type : 'UI.DataField',
             Value : learningMaster.courseDescription,
-            Label : 'courseDescription',
+            Label : '{i18n>Coursedescription}',
         },
         {
             $Type : 'UI.DataField',
             Value : status,
-            Label : 'status',
+            Label : '{i18n>Status}',
         },
         {
             $Type : 'UI.DataField',
             Value : assignedDate,
-            Label : 'assignedDate',
+            Label : '{i18n>Assigneddate}',
         },
         {
             $Type : 'UI.DataField',
             Value : completedDate,
-            Label : 'completedDate',
+            Label : '{i18n>Completeddate}',
         },
         {
             $Type : 'UI.DataField',
             Value : learningMaster.initialLevel,
-            Label : 'initialLevel',
+            Label : '{i18n>Initiallevel}',
         },
     ]
 );
@@ -373,7 +378,7 @@ annotate service.Employees with {
 };
 
 annotate service.Employees with {
-    annualLeavesUsed @Common.FieldControl : #ReadOnly
+    annualLeavesUsed @Common.FieldControl : #Optional
 };
 
 annotate service.Projects with @(
@@ -408,27 +413,27 @@ annotate service.Projects with @(
         {
             $Type : 'UI.DataField',
             Value : projectMaster_ID,
-            Label : 'projectMaster_ID',
+            Label : '{i18n>Projectmasterid}',
         },
         {
             $Type : 'UI.DataField',
             Value : projectMaster.projectName,
-            Label : 'projectName',
+            Label : '{i18n>Projectname}',
         },
         {
             $Type : 'UI.DataField',
             Value : projectMaster.projectDescription,
-            Label : 'projectDescription',
+            Label : '{i18n>Projectdescription}',
         },
         {
             $Type : 'UI.DataField',
             Value : assignedDate,
-            Label : 'assignedDate',
+            Label : '{i18n>Assigneddate}',
         },
         {
             $Type : 'UI.DataField',
             Value : completedDate,
-            Label : 'completedDate',
+            Label : '{i18n>Completeddate}',
         },
     ],
 );
@@ -487,22 +492,22 @@ annotate service.Ratings with @(
         {
             $Type : 'UI.DataFieldForAnnotation',
             Target : '@UI.DataPoint#rating',
-            Label : 'rating',
+            Label : '{i18n>Rating}',
         },
         {
             $Type : 'UI.DataField',
             Value : employee.ratings.comments,
-            Label : 'comments',
+            Label : '{i18n>Comments}',
         },
         {
             $Type : 'UI.DataField',
             Value : employee.ratings.reviewerID,
-            Label : 'reviewerID',
+            Label : '{i18n>Reviewerid}',
         },
         {
             $Type : 'UI.DataField',
             Value : employee.ratings.year,
-            Label : 'year',
+            Label : '{i18n>Year}',
         },
     ],
     UI.DataPoint #rating : {

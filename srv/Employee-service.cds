@@ -10,7 +10,10 @@ service EmployeeService {
       { grant: 'EXECUTE', to: 'authenticated-user' }
      
     ]
-    entity Employees as projection on db.Employees{ * }
+    entity Employees as projection on db.Employees {
+      *,
+      virtual remainingLeaves : Integer
+    }
       actions {
         @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
         @Common.IsActionCritical
