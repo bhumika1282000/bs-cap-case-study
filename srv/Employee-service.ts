@@ -4,7 +4,6 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
   async init() {
     const { Employees, LearningsMasterData } = this.entities;
     const db = await cds.connect.to('db');
-
     const { Employees: dbEmployees } = cds.entities('db');
 
     // ── Helper: get next sequential employee ID ──────────────────────
@@ -14,6 +13,12 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
       );
       let nextNum = 10001;
 
+      // optional chaining 
+      // last => undefined => undefined.employeeID => error
+      // undefined.something => error; undefined?.something => false
+
+      // parseInt => parse the string and return an integer
+      // regex = regular expression => /^[iI]/ => match 'I' or 'i' at the start of the string
       if (last?.employeeID) {
         const num = parseInt(last.employeeID.replace(/^[iI]/, ''), 10);
         if (!isNaN(num)) nextNum = num + 1;
@@ -34,6 +39,36 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
           .where({ email: { like: `${base}%@sap.com` } })
       );
 
+      // set; contains unique values
+      // set ([1, 1 , 2 , 3, 4, 4, 5]) => {1, 2, 3, 4, 5}
+
+        // forEach, map, filter
+        // map => transform each element of the array and return a new array
+        // [1, 2, 3].map((x, index) => { if (index == 0) { return x * 2} else return x }) => [2, 2, 3]  
+        
+        // anonymous
+        // any
+
+        /**
+         * 
+         * function someFunction(abc) {
+         *   // do something
+         * }
+         * 
+         * const someFunction = (abc) => {
+         *   // do something
+         * }
+         * 
+         * matches.map(function(e) {
+         *  return e.email;
+         * })
+         * 
+         * record 1 => { email: 'bhumi.sap.com' }
+         * record 2 => { email: 'bhumi2.sap.com' }
+         * [{ email: 'bhumi.sap.com' }, { email: 'bhumi2.sap.com' }]
+         * map => ['bhumi.sap.com', 'bhumi2.sap.com']
+         * taken = Set('bhumi.sharma@sap.com', 'bhumi.sharma1@sap.com', 'bhumi.sharma2@sap.com')
+         */
       const taken = new Set(matches.map((e: any) => e.email));
       let email = `${base}@sap.com`;
       let counter = 1;
