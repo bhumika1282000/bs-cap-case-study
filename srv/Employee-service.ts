@@ -115,6 +115,12 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
 
         // Happy path: calculate remaining leaves
         employee.remainingLeaves = leavesGranted - leavesUsed;
+
+        // Action availability: disable on drafts or based on status
+        // IsActiveEntity is true for saved entities, false for drafts, might be undefined in some contexts
+        const isActiveEntity = employee.IsActiveEntity !== false;
+        employee.isDeactivatable = isActiveEntity && employee.status === 'Active';
+        employee.isDeletable = isActiveEntity && employee.status === 'Obsolete';
       }
     });
 
@@ -150,42 +156,79 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
 
     // ── Auto-generate email and activate on Save ─────────────────────
     this.before('SAVE', 'Employees', async (req) => {
-      const nameRegex = /^[a-zA-Z\s'-]+$/;
-      if (req.data.firstName && !nameRegex.test(req.data.firstName)) {
-        req.reject(400, 'First name must contain only letters, spaces, hyphens, or apostrophes');
+      // Required field validations
+      if (!req.data.firstName?.trim()) {
+        return req.reject(400, 'First name is required');
       }
-      if (req.data.lastName && !nameRegex.test(req.data.lastName)) {
-        req.reject(400, 'Last name must contain only letters, spaces, hyphens, or apostrophes');
+      if (!req.data.lastName?.trim()) {
+        return req.reject(400, 'Last name is required');
+      }
+      if (!req.data.joiningDate) {
+        return req.reject(400, 'Joining date is required');
+      }
+      if (!req.data.phoneNumber?.trim()) {
+        return req.reject(400, 'Phone number is required');
+      }
+      if (!req.data.department?.trim()) {
+        return req.reject(400, 'Department is required');
+      }
+      if (!req.data.role?.trim()) {
+        return req.reject(400, 'Role is required');
+      }
+
+      // Format validations
+      const nameRegex = /^[a-zA-Z\s'-]+$/;
+      if (!nameRegex.test(req.data.firstName)) {
+        return req.reject(400, 'First name must contain only letters, spaces, hyphens, or apostrophes');
+      }
+      if (!nameRegex.test(req.data.lastName)) {
+        return req.reject(400, 'Last name must contain only letters, spaces, hyphens, or apostrophes');
       }
 
       // Phone number: exactly 10 numeric digits
-      if (req.data.phoneNumber && !/^\d{10}$/.test(req.data.phoneNumber)) {
-        req.reject(400, 'Phone number must be exactly 10 digits');
+      if (!/^\d{10}$/.test(req.data.phoneNumber)) {
+        return req.reject(400, 'Phone number must be exactly 10 digits');
       }
 
       // Role: letters, numbers, spaces, hyphens, / (e.g., "SDE2", "Senior Developer")
-      if (req.data.role && !/^[a-zA-Z0-9\s\-\/]+$/.test(req.data.role)) {
-        req.reject(400, 'Role must contain only letters, numbers, spaces, hyphens, or /');
+      if (!/^[a-zA-Z0-9\s\-\/]+$/.test(req.data.role)) {
+        return req.reject(400, 'Role must contain only letters, numbers, spaces, hyphens, or /');
       }
 
       // Department: letters, spaces, &, - (e.g., "R&D", "Human Resources")
-      if (req.data.department && !/^[a-zA-Z\s&\-]+$/.test(req.data.department)) {
-        req.reject(400, 'Department must contain only letters, spaces, & or hyphens');
+      if (!/^[a-zA-Z\s&\-]+$/.test(req.data.department)) {
+        return req.reject(400, 'Department must contain only letters, spaces, & or hyphens');
+      }
+
+      // Bank details: if any one is provided, all three are required
+      const hasBankName = !!req.data.bankName?.trim();
+      const hasBankCode = !!req.data.bankCode?.trim();
+      const hasBankAccount = !!req.data.bankAccountNumber?.trim();
+      if (hasBankName || hasBankCode || hasBankAccount) {
+        if (!hasBankName) {
+          return req.reject(400, 'Bank name is required when providing bank details');
+        }
+        if (!hasBankCode) {
+          return req.reject(400, 'Bank code is required when providing bank details');
+        }
+        if (!hasBankAccount) {
+          return req.reject(400, 'Bank account number is required when providing bank details');
+        }
       }
 
       // Bank Code: 8-11 alphanumeric (SWIFT/BIC format)
       if (req.data.bankCode && !/^[A-Z0-9]{8,11}$/i.test(req.data.bankCode)) {
-        req.reject(400, 'Bank code must be 8-11 alphanumeric characters');
+        return req.reject(400, 'Bank code must be 8-11 alphanumeric characters');
       }
 
       // Bank Name: letters, spaces, &, . (e.g., "State Bank of India", "HDFC Bank Ltd.")
       if (req.data.bankName && !/^[a-zA-Z\s&.]+$/.test(req.data.bankName)) {
-        req.reject(400, 'Bank name must contain only letters, spaces, & or .');
+        return req.reject(400, 'Bank name must contain only letters, spaces, & or .');
       }
 
       // Bank Account Number: 8-20 digits
       if (req.data.bankAccountNumber && !/^\d{8,20}$/.test(req.data.bankAccountNumber)) {
-        req.reject(400, 'Bank account number must be 8-20 digits');
+        return req.reject(400, 'Bank account number must be 8-20 digits');
       }
 
       if (req.data.bankAccountNumber) {
@@ -193,33 +236,63 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
           .columns('employeeID', 'firstName', 'lastName')
           .where({ bankAccountNumber: req.data.bankAccountNumber, ID: { '!=': req.data.ID } });
         if (duplicate) {
-          req.reject(400, `Bank account number ${req.data.bankAccountNumber} is already assigned to employee ${duplicate.employeeID} : ${duplicate.firstName} ${duplicate.lastName}`);
+          return req.reject(400, `Bank account number ${req.data.bankAccountNumber} is already assigned to employee ${duplicate.employeeID} : ${duplicate.firstName} ${duplicate.lastName}`);
         }
       }
 
       if (req.data.ratings?.length) {
         for (const r of req.data.ratings) {
-          if (r.rating < 1 || r.rating > 5) {
-            req.reject(400, `Rating must be between 1 and 5. Got: ${r.rating}`);
+          // Required field validations
+          if (!r.year?.trim()) {
+            return req.reject(400, 'Rating year is required');
           }
-          if (r.year && (!/^\d{4}$/.test(r.year) || parseInt(r.year) < 2000 || parseInt(r.year) > new Date().getFullYear())) {
-            req.reject(400, `Year must be between 2000 and ${new Date().getFullYear()}. Got: ${r.year}`);
+          if (r.rating === undefined || r.rating === null) {
+            return req.reject(400, 'Rating value is required');
+          }
+          if (!r.reviewerID?.trim()) {
+            return req.reject(400, 'Reviewer ID is required');
+          }
+          // Format validations
+          if (!/^[a-zA-Z0-9]+$/.test(r.reviewerID)) {
+            return req.reject(400, 'Reviewer ID must contain only letters and numbers');
+          }
+          if (r.rating < 1 || r.rating > 5) {
+            return req.reject(400, `Rating must be between 1 and 5. Got: ${r.rating}`);
+          }
+          if (!/^\d{4}$/.test(r.year) || parseInt(r.year) < 2000 || parseInt(r.year) > new Date().getFullYear()) {
+            return req.reject(400, `Year must be between 2000 and ${new Date().getFullYear()}. Got: ${r.year}`);
           }
         }
       }
 
       if (req.data.assignedLearnings?.length) {
         for (const l of req.data.assignedLearnings) {
-          if (l.assignedDate && l.completedDate && l.completedDate < l.assignedDate) {
-            req.reject(400, 'Learning completed date cannot be before assigned date');
+          // Required field validations
+          if (!l.learningMaster_ID) {
+            return req.reject(400, 'Learning is required');
+          }
+          if (!l.assignedDate) {
+            return req.reject(400, 'Learning assigned date is required');
+          }
+          // Date validations
+          if (l.completedDate && l.completedDate < l.assignedDate) {
+            return req.reject(400, 'Learning completed date cannot be before assigned date');
           }
         }
       }
 
       if (req.data.assignedProjects?.length) {
         for (const p of req.data.assignedProjects) {
-          if (p.assignedDate && p.completedDate && p.completedDate < p.assignedDate) {
-            req.reject(400, 'Project completed date cannot be before assigned date');
+          // If project is assigned, assigned date is required
+          if (!p.projectMaster_ID) {
+            return req.reject(400, 'Project is required');
+          }
+          if (!p.assignedDate) {
+            return req.reject(400, 'Project assigned date is required');
+          }
+          // Date validations
+          if (p.completedDate && p.completedDate < p.assignedDate) {
+            return req.reject(400, 'Project completed date cannot be before assigned date');
           }
         }
       }
@@ -228,10 +301,10 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
       const { annualLeavesGranted, annualLeavesUsed } = req.data;
       if (annualLeavesUsed !== undefined && annualLeavesGranted !== undefined) {
         if (annualLeavesUsed > annualLeavesGranted) {
-          req.reject(400, `Leaves used (${annualLeavesUsed}) cannot exceed leaves granted (${annualLeavesGranted})`);
+          return req.reject(400, `Leaves used (${annualLeavesUsed}) cannot exceed leaves granted (${annualLeavesGranted})`);
         }
         if (annualLeavesUsed < 0) {
-          req.reject(400, `Leaves used cannot be negative`);
+          return req.reject(400, `Leaves used cannot be negative`);
         }
       }
 

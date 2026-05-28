@@ -1,0 +1,8 @@
+ID;employee_ID;projectMaster_ID;assignedDate;completedDate
+bbbb1111-0001-0001-0001-000000000001;11111111-aaaa-bbbb-cccc-111111111111;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa;2023-02-01;
+bbbb1111-0002-0001-0001-000000000001;22222222-aaaa-bbbb-cccc-222222222222;bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb;2022-06-15;2023-12-31
+bbbb1111-0002-0001-0001-000000000002;22222222-aaaa-bbbb-cccc-222222222222;dddddddd-dddd-dddd-dddd-dddddddddddd;2024-01-15;
+bbbb1111-0003-0001-0001-000000000001;33333333-aaaa-bbbb-cccc-333333333333;cccccccc-cccc-cccc-cccc-cccccccccccc;2021-06-01;2022-11-30
+bbbb1111-0003-0001-0001-000000000002;33333333-aaaa-bbbb-cccc-333333333333;eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee;2023-01-01;
+bbbb1111-0004-0001-0001-000000000001;44444444-aaaa-bbbb-cccc-444444444444;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa;2020-10-01;2021-08-30
+bbbb1111-0004-0001-0001-000000000002;44444444-aaaa-bbbb-cccc-444444444444;ffffffff-ffff-ffff-ffff-ffffffffffff;2024-03-01;

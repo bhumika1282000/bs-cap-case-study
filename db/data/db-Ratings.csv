@@ -1,0 +1,12 @@
+ID;employee_ID;year;rating;reviewerID;comments
+cccc1111-0001-0001-0001-000000000001;11111111-aaaa-bbbb-cccc-111111111111;2023;4.5;I10003;Excellent performance and team collaboration
+cccc1111-0001-0001-0001-000000000002;11111111-aaaa-bbbb-cccc-111111111111;2024;4.0;I10003;Good work on cloud migration project
+cccc1111-0002-0001-0001-000000000001;22222222-aaaa-bbbb-cccc-222222222222;2022;3.5;I10003;Meeting expectations with room for improvement
+cccc1111-0002-0001-0001-000000000002;22222222-aaaa-bbbb-cccc-222222222222;2023;4.0;I10003;Improved testing coverage significantly
+cccc1111-0002-0001-0001-000000000003;22222222-aaaa-bbbb-cccc-222222222222;2024;4.5;I10003;Outstanding contribution to QA automation
+cccc1111-0003-0001-0001-000000000001;33333333-aaaa-bbbb-cccc-333333333333;2021;4.0;I10004;Strong leadership in HR initiatives
+cccc1111-0003-0001-0001-000000000002;33333333-aaaa-bbbb-cccc-333333333333;2022;4.5;I10004;Exceptional team management
+cccc1111-0003-0001-0001-000000000003;33333333-aaaa-bbbb-cccc-333333333333;2023;5.0;I10004;Top performer in department
+cccc1111-0004-0001-0001-000000000001;44444444-aaaa-bbbb-cccc-444444444444;2020;3.5;I10003;Good technical skills developing well
+cccc1111-0004-0001-0001-000000000002;44444444-aaaa-bbbb-cccc-444444444444;2021;4.0;I10003;Strong architecture contributions
+cccc1111-0004-0001-0001-000000000003;44444444-aaaa-bbbb-cccc-444444444444;2022;4.5;I10003;Led successful mobile app initiative

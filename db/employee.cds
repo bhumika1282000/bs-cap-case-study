@@ -12,19 +12,7 @@ type EmployeeStatus : String enum {
     InPreparation;
     Active;
     Obsolete;
-    Terminated;
 }
-
-type RatingValue : Decimal(2,1); // 1.0 to 5.0
-
-type LearningStatus : String enum {
-    NotStarted;
-    Assigned;
-    InProgress;
-    Completed;
-}
-
-
 // ============================================================================
 // PROJECTS MASTER DATA ENTITY
 // Master reference data for all available projects
@@ -42,10 +30,10 @@ entity Employees : cuid, managed {
     lastName        : String(100) not null;              // Last Name from table
     email           : String(100) not null @assert.unique;       // Email ID (auto-generated)
     address         : String(500);                        // Address from table
-    phoneNumber     : String(20);                         // Phone Number from table
+    phoneNumber     : String(20) not null;                // Phone Number from table
     status          : EmployeeStatus default 'Active';   // Status from table
-    department      : String(100);
-    role            : String(100);
+    department      : String(100) not null;
+    role            : String(100) not null;
     joiningDate     : Date not null;
     
     bankName                : String(100);
@@ -78,8 +66,8 @@ entity Employees : cuid, managed {
 entity Ratings : cuid, managed {
     employee        : Association to Employees;
     year            : String(4) not null;
-    rating          : RatingValue not null;
-    reviewerID      : String(100);
+    rating          : Decimal(2,1) not null;  // 1.0 to 5.0
+    reviewerID      : String(100) not null;
     comments        : String(1000);
     
 }
@@ -92,9 +80,9 @@ entity Ratings : cuid, managed {
 
 entity Learnings : cuid, managed {
     employee        : Association to Employees;
-    learningMaster  : Association to LearningsMasterData;
-    status          : LearningStatus default 'Assigned';
-    assignedDate    : Date;
+    learningMaster  : Association to LearningsMasterData not null;
+    status          : String default 'Assigned';
+    assignedDate    : Date not null;
     completedDate   : Date;
     
 }
@@ -108,6 +96,6 @@ entity Learnings : cuid, managed {
 entity Projects : cuid, managed {
     employee        : Association to Employees;
     projectMaster   : Association to ProjectsMasterData;
-    assignedDate    : Date;
+    assignedDate    : Date not null;
     completedDate   : Date;  
     }

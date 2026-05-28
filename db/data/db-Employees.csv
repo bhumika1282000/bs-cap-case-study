@@ -1,4 +1,5 @@
-employeeID,firstName,lastName,email,address,phoneNumber,status,role,department,joiningDate
-i71234,Bhumika,Sharma,bhumika@gmail.com,123-abc colony,123-456-7890,Active,Developer,IT,2023-01-10
-i71235,Rahul,Verma,rahul@gmail.com,456-def street,456-789-0123,Active,Tester,QA,2022-05-15
-i71236,Ankit,Singh,ankit@gmail.com,789-ghi avenue,789-012-3456,Active,Manager,HR,2021-03-20
+ID;employeeID;firstName;lastName;email;address;phoneNumber;status;role;department;joiningDate;bankName;bankAccountNumber;bankCode;annualLeavesGranted;annualLeavesUsed
+11111111-aaaa-bbbb-cccc-111111111111;I10001;Bhumika;Sharma;bhumika.sharma@sap.com;123 ABC Colony;9876543210;Active;Developer;IT;2023-01-10;State Bank of India;12345678901234;SBININBB;20;5
+22222222-aaaa-bbbb-cccc-222222222222;I10002;Rahul;Verma;rahul.verma@sap.com;456 DEF Street;8765432109;Active;Tester;QA;2022-05-15;HDFC Bank;23456789012345;HDFCINBB;20;8
+33333333-aaaa-bbbb-cccc-333333333333;I10003;Ankit;Singh;ankit.singh@sap.com;789 GHI Avenue;7654321098;Active;Manager;HR;2021-03-20;ICICI Bank;34567890123456;ABORINBB;20;12
+44444444-aaaa-bbbb-cccc-444444444444;I10004;Priya;Patel;priya.patel@sap.com;101 JKL Road;6543210987;Active;Senior Developer;R&D;2020-08-25;;;;20;3

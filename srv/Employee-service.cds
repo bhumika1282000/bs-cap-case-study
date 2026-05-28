@@ -12,7 +12,9 @@ service EmployeeService {
     ]
     entity Employees as projection on db.Employees {
       *,
-      virtual remainingLeaves : Integer
+      virtual remainingLeaves : Integer,
+      virtual isDeactivatable : Boolean,
+      virtual isDeletable : Boolean
     }
       actions {
         @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
@@ -20,9 +22,11 @@ service EmployeeService {
         @Common.SideEffects: {
             TargetProperties: ['in/status']
         }
+        @Core.OperationAvailable: isDeactivatable
         action deactivateEmployee() returns Employees;
         @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
         @Common.IsActionCritical
+        @Core.OperationAvailable: isDeletable
         action permanentlyDeleteEmployee();
       };
 

@@ -19,37 +19,37 @@ annotate LearningService.LearningsMasterData with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'learningID',
+                Label : '{i18n>Learningid}',
                 Value : learningID,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'courseCode',
+                Label : '{i18n>Coursecode}',
                 Value : courseCode,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'courseDescription',
+                Label : '{i18n>Coursedescription}',
                 Value : courseDescription,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'Initial Learning',
+                Label : '{i18n>InitialLearning}',
                 Value : initialLevel,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'Availability',
+                Label : '{i18n>Availability}',
                 Value : availability,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'courseContacts',
+                Label : '{i18n>Coursecontacts}',
                 Value : courseContacts,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'duration',
+                Label : '{i18n>Duration}',
                 Value : duration,
             },
         ],
@@ -65,32 +65,32 @@ annotate LearningService.LearningsMasterData with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'learningID',
+            Label : '{i18n>Learningid}',
             Value : learningID,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'courseCode',
+            Label : '{i18n>Coursecode}',
             Value : courseCode,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'courseDescription',
+            Label : '{i18n>Coursedescription}',
             Value : courseDescription,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Initial Learning',
+            Label : '{i18n>InitialLearning}',
             Value : initialLevel,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Availability',
+            Label : '{i18n>Availability}',
             Value : availability,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'courseContacts',
+            Label : '{i18n>Coursecontacts}',
             Value : courseContacts,
         },
     ],

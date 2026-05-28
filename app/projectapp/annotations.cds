@@ -22,17 +22,17 @@ annotate ProjectService.ProjectsMasterData with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'projectID',
+                Label : '{i18n>Projectid}',
                 Value : projectID,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'projectName',
+                Label : '{i18n>Projectname}',
                 Value : projectName,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'projectDescription',
+                Label : '{i18n>Projectdescription}',
                 Value : projectDescription,
             },
         ],
@@ -49,17 +49,17 @@ annotate ProjectService.ProjectsMasterData with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'projectID',
+            Label : '{i18n>Projectid}',
             Value : projectID,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'projectName',
+            Label : '{i18n>Projectname}',
             Value : projectName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'projectDescription',
+            Label : '{i18n>Projectdescription}',
             Value : projectDescription,
         },
     ],

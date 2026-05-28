@@ -91,7 +91,7 @@ annotate service.Employees with @(
         },
         {
             $Type : 'UI.DataField',
-            Label : '{i18n>Firstname1}',
+            Label : '{i18n>Firstname}',
             Value : firstName,
         },
         {
@@ -117,7 +117,7 @@ annotate service.Employees with @(
         {
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeeService.permanentlyDeleteEmployee',
-            Label : 'Permanently Delete',
+            Label : '{i18n>PermanentlyDelete}',
         },
     ],
     UI.FieldGroup #EmploymentInformation : {
@@ -240,16 +240,11 @@ annotate service.Employees with @(
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeeService.deactivateEmployee',
             Label : 'Obsolete',
-            ![@UI.Hidden] : {
-                $edmJson : {
-                    $Eq : [{ $Path : 'status' }, 'Obsolete']
-                }
-            },
         },
         {
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeeService.permanentlyDeleteEmployee',
-            Label : 'Permanently Delete Employee',
+            Label : '{i18n>PermanentlyDelete}',
         },
     ],
 );
@@ -519,18 +514,7 @@ annotate service.Ratings with @(
 
 annotate service.Learnings with {
     status @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'Learnings',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : status,
-                    ValueListProperty : 'status',
-                },
-            ],
-            Label : 'status',
-        },
-        Common.ValueListWithFixedValues : true,
+        UI.MultiLineText : true,
+        Common.FieldControl : #ReadOnly,
 )};
 

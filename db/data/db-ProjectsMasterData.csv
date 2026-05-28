@@ -1,6 +1,7 @@
 ID;projectID;projectName;projectDescription
-aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa;P001;Cloud Migration;Migrate legacy systems to SAP BTP cloud platform
-bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb;P002;Fiori Redesign;Redesign existing SAP GUI screens to Fiori UX
-cccccccc-cccc-cccc-cccc-cccccccccccc;P003;S4HANA Implementation;Implement SAP S/4HANA for finance module
-dddddddd-dddd-dddd-dddd-dddddddddddd;P004;Data Analytics Platform;Build enterprise data analytics dashboard
-eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee;P005;Integration Suite;Integrate third-party systems via SAP Integration Suite
+aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa;P001;Cloud Migration;Migrate legacy on-premise systems to SAP BTP cloud platform for improved scalability
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb;P002;Fiori Redesign;Redesign existing SAP GUI transaction screens to modern Fiori user experience
+cccccccc-cccc-cccc-cccc-cccccccccccc;P003;S4HANA Implementation;Implement SAP S4HANA finance module with custom extensions and integrations
+dddddddd-dddd-dddd-dddd-dddddddddddd;P004;Data Analytics Platform;Build enterprise data analytics dashboard with real-time reporting capabilities
+eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee;P005;Integration Suite;Integrate third-party systems via SAP Integration Suite with API management
+ffffffff-ffff-ffff-ffff-ffffffffffff;P006;Mobile App Development;Develop cross-platform mobile application for field service management
