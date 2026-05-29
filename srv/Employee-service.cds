@@ -9,9 +9,7 @@ service EmployeeService {
     ]
     entity Employees as projection on db.Employees {
       *,
-      virtual remainingLeaves : Integer,
-      virtual isDeactivatable : Boolean,
-      virtual isDeletable : Boolean
+      virtual remainingLeaves : Integer
     }
       actions {
         @restrict: [{ grant: 'EXECUTE', to: 'ADMIN' }]
@@ -19,11 +17,11 @@ service EmployeeService {
         @Common.SideEffects: {
             TargetEntities: ['in/']
         }
-        @Core.OperationAvailable: isDeactivatable
+        @Core.OperationAvailable: { $edmJson: { $Eq: [{ $Path: 'status' }, 'Active'] } }
         action deactivateEmployee() returns Employees;
         @restrict: [{ grant: 'EXECUTE', to: 'ADMIN' }]
         @Common.IsActionCritical
-        @Core.OperationAvailable: isDeletable
+        @Core.OperationAvailable: { $edmJson: { $Eq: [{ $Path: 'status' }, 'Obsolete'] } }
         action permanentlyDeleteEmployee();
       };
 

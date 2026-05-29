@@ -100,12 +100,6 @@ export default class EmployeeServiceHandler extends cds.ApplicationService {
 
         // Happy path: calculate remaining leaves
         employee.remainingLeaves = leavesGranted - leavesUsed;
-
-        // Action availability: disable on drafts or based on status
-        // IsActiveEntity is true for saved entities, false for drafts, might be undefined in some contexts
-        const isActiveEntity = employee.IsActiveEntity !== false;
-        employee.isDeactivatable = isActiveEntity && employee.status === 'Active';
-        employee.isDeletable = isActiveEntity && employee.status === 'Obsolete';
       }
     });
 
