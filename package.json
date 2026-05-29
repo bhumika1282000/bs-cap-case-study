@@ -62,6 +62,7 @@
       "auth": {
         "kind": "mocked",
         "users": {
+          "*": false,
           "admin": {
             "password": "admin",
             "roles": [

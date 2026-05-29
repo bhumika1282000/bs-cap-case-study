@@ -3,9 +3,10 @@ using db from '../db/employee';
 service LearningService {
 
     @restrict: [
-        { grant: 'READ',  to: 'authenticated-user' },
-        { grant: 'WRITE', to: 'authenticated-user' }
+        { grant: '*', to: 'ADMIN' },
+        { grant: 'READ', to: 'VIEWER' },
+        { grant: 'READ', to: 'LEARNING_ADMIN' }
     ]
     @odata.draft.enabled
-     entity LearningsMasterData as projection on db.LearningsMasterData{ * };
+    entity LearningsMasterData as projection on db.LearningsMasterData{ * };
 }    

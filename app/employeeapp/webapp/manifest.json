@@ -116,6 +116,7 @@
             "settings": {
               "contextPath": "/Employees",
               "variantManagement": "Page",
+              "enhanceI18n": "i18n/customI18n.properties",
               "navigation": {
                 "Employees": {
                   "detail": {
@@ -142,6 +143,7 @@
             "settings": {
               "editableHeaderContent": false,
               "contextPath": "/Employees",
+              "enhanceI18n": "i18n/customI18n.properties",
               "controlConfiguration": {
                 "assignedLearnings/@com.sap.vocabularies.UI.v1.LineItem#Leanings": {
                   "tableSettings": {

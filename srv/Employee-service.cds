@@ -4,11 +4,8 @@ service EmployeeService {
 
     @(odata.draft.enabled)
     @restrict: [ 
-    
-      { grant: 'READ', to: 'authenticated-user' },
-      { grant: 'WRITE', to: 'authenticated-user' },
-      { grant: 'EXECUTE', to: 'authenticated-user' }
-     
+      { grant: '*', to: 'ADMIN' },
+      { grant: 'READ', to: 'VIEWER' }
     ]
     entity Employees as projection on db.Employees {
       *,
@@ -17,14 +14,14 @@ service EmployeeService {
       virtual isDeletable : Boolean
     }
       actions {
-        @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
+        @restrict: [{ grant: 'EXECUTE', to: 'ADMIN' }]
         @Common.IsActionCritical
         @Common.SideEffects: {
             TargetEntities: ['in/']
         }
         @Core.OperationAvailable: isDeactivatable
         action deactivateEmployee() returns Employees;
-        @restrict: [{ grant: 'EXECUTE', to: 'authenticated-user' }]
+        @restrict: [{ grant: 'EXECUTE', to: 'ADMIN' }]
         @Common.IsActionCritical
         @Core.OperationAvailable: isDeletable
         action permanentlyDeleteEmployee();
@@ -32,20 +29,22 @@ service EmployeeService {
 
  // ========== CHILD ENTITIES ==========
     @restrict: [
-        { grant: 'READ',  to: 'authenticated-user' },
-        { grant: 'WRITE', to: 'authenticated-user' }
+        { grant: '*', to: 'ADMIN' },
+        { grant: 'READ', to: 'VIEWER' }
     ]
     entity Ratings as projection on db.Ratings{ * };
 
     @restrict: [
-        { grant: 'READ',  to: 'authenticated-user' },
-        { grant: 'WRITE', to: 'authenticated-user' }
+        { grant: '*', to: 'ADMIN' },
+        { grant: 'READ', to: 'VIEWER' },
+        { grant: 'READ', to: 'LEARNING_ADMIN' }
     ]
     entity Learnings as projection on db.Learnings{ * };
 
     @restrict: [
-        { grant: 'READ',  to: 'authenticated-user' },
-        { grant: 'WRITE', to: 'authenticated-user' }
+        { grant: '*', to: 'ADMIN' },
+        { grant: 'READ', to: 'VIEWER' },
+        { grant: 'READ', to: 'PROJECT_ADMIN' }
     ]
     entity Projects as projection on db.Projects{ * };   
 
