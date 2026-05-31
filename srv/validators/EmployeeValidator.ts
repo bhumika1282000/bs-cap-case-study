@@ -222,6 +222,75 @@ export class EmployeeValidator {
     }
     return { isValid: true };
   }
-}
 
-export default EmployeeValidator;
+  /**
+   * Validate all employee data for save
+   */
+  static validateEmployeeData(data: any): ValidationResult {
+    // Required fields
+    let result = this.validateRequiredFields(data);
+    if (!result.isValid) return result;
+
+    // Name formats
+    result = this.validateName(data.firstName, 'First name');
+    if (!result.isValid) return result;
+
+    result = this.validateName(data.lastName, 'Last name');
+    if (!result.isValid) return result;
+
+    // Phone
+    result = this.validatePhoneNumber(data.phoneNumber);
+    if (!result.isValid) return result;
+
+    // Role
+    result = this.validateRole(data.role);
+    if (!result.isValid) return result;
+
+    // Department
+    result = this.validateDepartment(data.department);
+    if (!result.isValid) return result;
+
+    // Bank details
+    result = this.validateBankDetails(data);
+    if (!result.isValid) return result;
+
+    result = this.validateBankCode(data.bankCode);
+    if (!result.isValid) return result;
+
+    result = this.validateBankName(data.bankName);
+    if (!result.isValid) return result;
+
+    result = this.validateBankAccountNumber(data.bankAccountNumber);
+    if (!result.isValid) return result;
+
+    // Leaves
+    result = this.validateLeaves(data.annualLeavesGranted, data.annualLeavesUsed);
+    if (!result.isValid) return result;
+
+    // Ratings
+    if (data.ratings?.length) {
+      for (const rating of data.ratings) {
+        result = this.validateRating(rating);
+        if (!result.isValid) return result;
+      }
+    }
+
+    // Learnings
+    if (data.assignedLearnings?.length) {
+      for (const learning of data.assignedLearnings) {
+        result = this.validateLearning(learning);
+        if (!result.isValid) return result;
+      }
+    }
+
+    // Projects
+    if (data.assignedProjects?.length) {
+      for (const project of data.assignedProjects) {
+        result = this.validateProject(project);
+        if (!result.isValid) return result;
+      }
+    }
+
+    return { isValid: true };
+  }
+}
