@@ -10,8 +10,8 @@ export default class ProjectServiceHandler extends cds.ApplicationService {
     this.before('DELETE', 'ProjectsMasterData', async (req) => {
       const project = await SELECT.one.from(ProjectsMasterData).where({ ID: req.data.ID });
       if (!project) return;
-      const assigned = await SELECT.one.from('db.Projects', p => {
-        p.employee(e => { e.employeeID; e.firstName; e.lastName; });
+      const assigned = await SELECT.one.from('db.Projects', (p: any) => {
+        p.employee((e: any) => { e.employeeID; e.firstName; e.lastName; });
       }).where({ projectMaster_ID: req.data.ID });
       if (assigned) {
         const emp = assigned.employee;

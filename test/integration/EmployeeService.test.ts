@@ -27,7 +27,7 @@ describe('EmployeeService Integration Tests', function () {
 
   before(async () => {
     // Bootstrap CDS with SQLite database
-    await cds.deploy('./db').to('sqlite');
+    await (cds as any).deploy('./db').to('sqlite');
   });
 
   after(async () => {
