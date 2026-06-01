@@ -13,11 +13,6 @@ type EmployeeStatus : String enum {
     Active;
     Obsolete;
 }
-// ============================================================================
-// PROJECTS MASTER DATA ENTITY
-// Master reference data for all available projects
-// Fields: ID, Project Name, Project Description
-// ============================================================================
 
 // ============================================================================
 // MAIN EMPLOYEES ENTITY

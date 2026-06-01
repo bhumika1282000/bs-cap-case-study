@@ -6,16 +6,15 @@
     "allowJs": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "rootDir": "./webapp",
     "outDir": "./dist",
-    "baseUrl": "./webapp",
     "paths": {
       "employeeapp/*": [
         "./webapp/*"
       ]
     },
-    "types": [
+    "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@sapui5/types",
       "../../node_modules/@types",

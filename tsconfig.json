@@ -19,5 +19,5 @@
       ]
     }
   },
-  "exclude": ["app", "gen", "node_modules"]
+  "exclude": ["app", "gen", "node_modules", "coverage"]
 }
